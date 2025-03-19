@@ -16,7 +16,7 @@
 
     <!-- Item Listing Form -->
     <div class="container mt-4">
-        <h1>List an Item</h1>
+        <h1>List an Item for exchange</h1>
         <form id="list-item-form">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
@@ -27,8 +27,31 @@
                 <textarea class="form-control" id="description" rows="3" required></textarea>
             </div>
             <div class="mb-3">
-                <label for="price" class="form-label">Price</label>
+                <label for="price" class="form-label">Items you're looking to exchange it for</label>
                 <input type="text" class="form-control" id="price" required>
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label">Upload Image</label>
+                <input type="file" class="form-control" id="image" accept="image/*" required>
+            </div>
+            <button type="submit" class="btn btn-primary">List Item</button>
+        </form>
+    </div>
+
+    <div class="container mt-4">
+        <h1>List an Item for giveaway</h1>
+        <form id="list-item-form">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" rows="3" required></textarea>
+            </div>            
+            <div class="mb-3">
+                <label for="image" class="form-label">Upload Image</label>
+                <input type="file" class="form-control" id="image" accept="image/*" required>
             </div>
             <button type="submit" class="btn btn-primary">List Item</button>
         </form>
