@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TakeOrTrade - Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <style>
+        .card-container {
+            display: flex; /* Use flexbox */
+            gap: 20px; /* Space between cards */
+            justify-content: space-between; /* Distribute space evenly */
+        }
+
+        .card {
+            flex: 1; /* Each card takes equal space */
+            border: 1px solid #ccc; /* Optional: Add border for better visibility */
+            padding: 10px; /* Optional: Add padding */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
+        }
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            max-width: 300px;
+            margin: auto;
+            text-align: center;
+            font-family: arial;
+        }
+
+        .price {
+            color: grey;
+            font-size: 22px;
+        }
+
+        .card button {
+            border: none;
+            outline: 0;
+            padding: 12px;
+            color: white;
+            background-color: #000;
+            text-align: center;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+        }
+
+        .card button:hover {
+            opacity: 0.7;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">TakeOrTrade</a>
+        </div>
+    </nav>
+
+    <!-- Profile Information -->
+    <div class="container mt-4">
+        <h1>User Profile</h1>
+        <p>Email: user@example.com</p>
+        <h2>Listed Items</h2>
+        <div class="row" id="item-list">
+            <!-- Cards will be dynamically inserted here -->
+        </div>
+    </div>
+    <div class="card-container">
+        <div class="card">
+            <img src="images/jeans3.jpg" alt="Denim Jeans" style="width:100%">
+            <h1>Tailored Jeans</h1>
+            <p class="price">$19.99</p>
+            <p>Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum.</p>
+            <p><button>Add to Cart</button></p>
+        </div>
+        <div class="card">
+            <img src="images/jeans3.jpg" alt="Denim Jeans" style="width:100%">
+            <h1>Tailored Jeans</h1>
+            <p class="price">$19.99</p>
+            <p>Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum.</p>
+            <p><button>Add to Cart</button></p>
+        </div>
+        <div class="card">
+            <img src="images/jeans3.jpg" alt="Denim Jeans" style="width:100%">
+            <h1>Tailored Jeans</h1>
+            <p class="price">$19.99</p>
+            <p>Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum.</p>
+            <p><button>Add to Cart</button></p>
+        </div>
+    </div>
+    <script src="scripts/script.js"></script>
+</body>
+
+</html>
