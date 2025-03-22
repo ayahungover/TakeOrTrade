@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giveaway Listings - TakeOrTrade</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 15px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .card h1 {
+            font-size: 1.5rem;
+            margin: 10px 0;
+        }
+
+        .card .price {
+            font-size: 1.2rem;
+            color: green;
+        }
+
+        .card button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .card button:hover {
+            background-color: #c82333;
+        }
+
+        .button-container {
+            display: flex;
+            /* Use Flexbox */
+            gap: 10px;
+            /* Space between buttons */
+            justify-content: space-between;
+            /* Distribute space evenly */
+        }
+
+        .button-container button {
+            flex: 1;
+            /* Each button takes equal space */
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button-container button:first-child {
+            background-color: #dc3545;
+            /* Red for Remove Listing */
+            color: white;
+        }
+
+        .button-container button:last-child {
+            background-color: #007bff;
+            /* Blue for Contact Seller */
+            color: white;
+        }
+
+        .button-container button:hover {
+            opacity: 0.9;
+            /* Slight hover effect */
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">TakeOrTrade</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1>Giveaway Listings</h1>
+
+        <!-- Display Listed Giveaways -->
+        <div class="card-container">
+            <div class="card">
+                <img src="images/bag1.jpg" alt="YSL Bag" style="width:100%">
+                <h1>YSL Bag</h1>
+                <p class="price">$0.00</p>
+                <p>Some text about the bag. Super stylish and elegant.</p>
+                <div class="button-container">
+                    <button>Book Item</button>
+                    <button>Contact Owner</button>
+                </div>
+            </div>
+            <div class="card">
+                <img src="images/jeans3.jpg" alt="Tailored Jeans" style="width:100%">
+                <h1>Tailored Jeans</h1>
+                <p class="price">$0.00</p>
+                <p>Some text about the jeans. Super slim and comfy.</p>
+                <div class="button-container">
+                    <button>Book Item</button>
+                    <button>Contact Owner</button>
+                </div>
+            </div>
+            <div class="card">
+                <img src="images/perfume2.jpg" alt="YSL Perfume" style="width:100%">
+                <h1>YSL Perfume</h1>
+                <p class="price">$0.00</p>
+                <p>Some text about the perfume. Luxurious and long-lasting.</p>
+                <div class="button-container">
+                    <button>Book Item</button>
+                    <button>Contact Owner</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
