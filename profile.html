@@ -1,106 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TakeOrTrade - Profile</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-
-    <style>
-        .card-container {
-            display: flex; /* Use flexbox */
-            gap: 20px; /* Space between cards */
-            justify-content: space-between; /* Distribute space evenly */
-        }
-
-        .card {
-            flex: 1; /* Each card takes equal space */
-            border: 1px solid #ccc; /* Optional: Add border for better visibility */
-            padding: 10px; /* Optional: Add padding */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
-        }
-        .card {
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-            max-width: 300px;
-            margin: auto;
-            text-align: center;
-            font-family: arial;
-        }
-
-        .price {
-            color: grey;
-            font-size: 22px;
-        }
-
-        .card button {
-            border: none;
-            outline: 0;
-            padding: 12px;
-            color: white;
-            background-color: #000;
-            text-align: center;
-            cursor: pointer;
-            width: 100%;
-            font-size: 18px;
-        }
-
-        .card button:hover {
-            opacity: 0.7;
-        }
-        
-    </style>
-</head>
-
-<body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">TakeOrTrade</a>
-        </div>
-    </nav>
-
-    <!-- Profile Information -->
-    <div class="container mt-4">
-        <h1>User Profile</h1>
-        <p>Email: user@example.com</p>
-        <h2>Listed Items</h2>
-        <div class="row" id="item-list">
-            <!-- Cards will be dynamically inserted here -->
-        </div>
+<div class="profile-container">
+    <div class="profile-header">
+      <div class="avatar-upload">
+        <img src="img/default-avatar.jpg" id="avatar-preview">
+        <input type="file" id="avatar-upload" accept="image/*">
+        <label for="avatar-upload" class="btn btn-sm btn-primary">
+          <i class="fas fa-camera"></i>
+        </label>
+      </div>
+      <h3>John Doe <span class="badge bg-primary">Pro Member</span></h3>
     </div>
-    <div class="card-container">
-        <div class="card">
-            <img src="images/bag1.jpg" alt="YSL Bag" style="width:100%">
-            <h1>YSL Bag</h1>
-            <p class="price">$0.00</p>
-            <p>Super stylish and elegant.</p>
-            <div class="button-container">
-                <button>Remove Item</button>
-            </div>
+  
+    <div class="profile-sections">
+      <!-- Location Settings -->
+      <div class="profile-section">
+        <h5><i class="fas fa-map-marker-alt"></i> Location</h5>
+        <div class="location-settings">
+          <div class="mb-3">
+            <label class="form-label">Your Address</label>
+            <input type="text" class="form-control" value="123 Main St, Brooklyn">
+          </div>
+          <button class="btn btn-sm btn-outline-primary" id="detect-location">
+            <i class="fas fa-location-arrow"></i> Detect My Location
+          </button>
         </div>
-        <div class="card">
-            <img src="images/jeans3.jpg" alt="Tailored Jeans" style="width:100%">
-            <h1>Tailored Jeans</h1>
-            <p class="price">$0.00</p>
-            <p>Super slim and comfy.</p>
-            <div class="button-container">
-                <button>Remove Item</button>
-
-            </div>
+      </div>
+  
+      <!-- Notification Preferences -->
+      <div class="profile-section">
+        <h5><i class="fas fa-bell"></i> Notifications</h5>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="email-notifications" checked>
+          <label class="form-check-label" for="email-notifications">Email Notifications</label>
         </div>
-        <div class="card">
-            <img src="images/perfume2.jpg" alt="YSL Perfume" style="width:100%">
-            <h1>YSL Perfume</h1>
-            <p class="price">$0.00</p>
-            <p>Luxurious and long-lasting.</p>
-            <div class="button-container">
-                <button>Remove Item</button>
-            </div>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="wishlist-alerts" checked>
+          <label class="form-check-label" for="wishlist-alerts">Wishlist Matches</label>
         </div>
+      </div>
     </div>
-    <script src="scripts/script.js"></script>
-</body>
-
-</html>
+  </div>

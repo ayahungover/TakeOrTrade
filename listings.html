@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse Listings - TakeOrTrade</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Modern styling */
+    :root {
+      --fcfs-color: linear-gradient(135deg, #4CAF50, #2E7D32);
+      --request-color: linear-gradient(135deg, #FF9800, #F57C00);
+      --exchange-color: linear-gradient(135deg, #3F51B5, #2196F3);
+    }
+    
+    .listing-card {
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      border: none;
+    }
+    .listing-card:hover {
+      box-shadow: 0 14px 28px rgba(0,0,0,0.08), 0 10px 10px rgba(0,0,0,0.05);
+      transform: translateY(-2px);
+    }
+    .listing-img {
+      height: 200px;
+      object-fit: cover;
+      width: 100%;
+    }
+    .type-badge {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      font-size: 0.8rem;
+      padding: 5px 10px;
+      border-radius: 20px;
+      color: white;
+    }
+    .fcfs-badge {
+      background: var(--fcfs-color);
+    }
+    .request-badge {
+      background: var(--request-color);
+    }
+    .exchange-badge {
+      background: var(--exchange-color);
+    }
+    .distance-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(0,0,0,0.6);
+      color: white;
+    }
+    .filter-card {
+      border-radius: 12px;
+    }
+    .filter-header {
+      cursor: pointer;
+    }
+    .filter-section {
+      transition: all 0.3s ease;
+    }
+    .map-preview {
+      height: 150px;
+      background: #eee;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    .map-preview::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.3));
+    }
+    .heart-btn {
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.9);
+      color: #ff4757;
+      border: none;
+      transition: all 0.3s;
+    }
+    .heart-btn:hover {
+      background: white;
+      transform: scale(1.1);
+    }
+    .heart-btn.active {
+      color: white;
+      background: #ff4757;
+    }
+    .search-bar {
+      border-radius: 50px;
+      padding-left: 20px;
+      border: 1px solid #dee2e6;
+    }
+    .search-btn {
+      border-radius: 0 50px 50px 0;
+      padding: 0 20px;
+    }
+  </style>
+</head>
+<body class="bg-light">
+  <!-- Navbar (same as other pages) -->
+
+  <main class="container py-5">
+    <!-- Search and Filter Bar -->
+    <div class="row mb-4">
+      <div class="col-md-8">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control search-bar" placeholder="Search for items...">
+          <button class="btn btn-primary search-btn" type="button">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="d-flex justify-content-end gap-2">
+          <button class="btn btn-outline-secondary" data-bs-toggle="collapse" href="#filterCollapse">
+            <i class="fas fa-sliders-h me-1"></i> Filters
+          </button>
+          <div class="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+              <i class="fas fa-sort me-1"></i> Sort
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item sort-option active" href="#" data-sort="newest">Newest First</a></li>
+              <li><a class="dropdown-item sort-option" href="#" data-sort="distance">Closest First</a></li>
+              <li><a class="dropdown-item sort-option" href="#" data-sort="popular">Most Popular</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters Collapse -->
+    <div class="collapse mb-4" id="filterCollapse">
+      <div class="card filter-card shadow-sm">
+        <div class="card-body">
+          <div class="row">
+            <!-- Listing Type -->
+            <div class="col-md-3 mb-3">
+              <h6 class="fw-bold mb-3">Listing Type</h6>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="filter-exchange" checked>
+                <label class="form-check-label" for="filter-exchange">Exchange</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="filter-giveaway" checked>
+                <label class="form-check-label" for="filter-giveaway">Giveaway</label>
+              </div>
+            </div>
+            
+            <!-- Giveaway Type -->
+            <div class="col-md-3 mb-3">
+              <h6 class="fw-bold mb-3">Giveaway Type</h6>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="filter-fcfs" checked>
+                <label class="form-check-label" for="filter-fcfs">Instant (FCFS)</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="filter-request" checked>
+                <label class="form-check-label" for="filter-request">Request-Based</label>
+              </div>
+            </div>
+            
+            <!-- Location -->
+            <div class="col-md-3 mb-3">
+              <h6 class="fw-bold mb-3">Location</h6>
+              <div class="mb-3">
+                <label for="location-range" class="form-label">Within <span id="range-value">10</span> km</label>
+                <input type="range" class="form-range" min="1" max="50" value="10" id="location-range">
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="filter-nearby">
+                <label class="form-check-label" for="filter-nearby">Show nearby only</label>
+              </div>
+            </div>
+            
+            <!-- Categories -->
+            <div class="col-md-3 mb-3">
+              <h6 class="fw-bold mb-3">Categories</h6>
+              <select class="form-select" id="category-filter" multiple>
+                <option value="electronics" selected>Electronics</option>
+                <option value="furniture" selected>Furniture</option>
+                <option value="clothing" selected>Clothing</option>
+                <option value="books" selected>Books</option>
+                <option value="other" selected>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-outline-danger me-2" id="reset-filters">
+              Reset
+            </button>
+            <button class="btn btn-primary" id="apply-filters">
+              Apply Filters
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Listings Grid -->
+    <div class="row g-4" id="listings-container">
+      <!-- Listing 1 - FCFS Giveaway -->
+      <div class="col-xl-3 col-lg-4 col-md-6">
+        <div class="card listing-card shadow-sm h-100">
+          <div class="position-relative">
+            <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc" class="listing-img">
+            <span class="type-badge fcfs-badge">FCFS Giveaway</span>
+            <span class="distance-badge badge">2.3 km</span>
+            <button class="heart-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Leather Sofa</h5>
+            <p class="card-text text-muted">Excellent condition, barely used</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" width="24" height="24" class="rounded-circle me-1">
+                <small>SarahJ</small>
+              </div>
+              <small class="text-muted">2 hours ago</small>
+            </div>
+          </div>
+          <div class="card-footer bg-transparent">
+            <button class="btn btn-primary w-100">
+              <i class="fas fa-shopping-cart me-1"></i> Book Instantly
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Listing 2 - Request Giveaway -->
+      <div class="col-xl-3 col-lg-4 col-md-6">
+        <div class="card listing-card shadow-sm h-100">
+          <div class="position-relative">
+            <img src="https://images.unsplash.com/photo-1523381294911-8d3cead13475" class="listing-img">
+            <span class="type-badge request-badge">Request Giveaway</span>
+            <span class="distance-badge badge">5.1 km</span>
+            <button class="heart-btn active">
+              <i class="fas fa-heart"></i>
+            </button>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Designer Jeans</h5>
+            <p class="card-text text-muted">Size 32, like new</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" width="24" height="24" class="rounded-circle me-1">
+                <small>MikeT</small>
+              </div>
+              <small class="text-muted">1 day ago</small>
+            </div>
+          </div>
+          <div class="card-footer bg-transparent">
+            <button class="btn btn-warning text-white w-100">
+              <i class="fas fa-hand-paper me-1"></i> Request Item
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Listing 3 - Exchange -->
+      <div class="col-xl-3 col-lg-4 col-md-6">
+        <div class="card listing-card shadow-sm h-100">
+          <div class="position-relative">
+            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12" class="listing-img">
+            <span class="type-badge exchange-badge">Exchange</span>
+            <span class="distance-badge badge">3.7 km</span>
+            <button class="heart-btn">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">iPhone 12</h5>
+            <p class="card-text text-muted">64GB, excellent condition</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <img src="https://randomuser.me/api/portraits/women/68.jpg" width="24" height="24" class="rounded-circle me-1">
+                <small>JennyK</small>
+              </div>
+              <small class="text-muted">3 days ago</small>
+            </div>
+          </div>
+          <div class="card-footer bg-transparent">
+            <button class="btn btn-info text-white w-100">
+              <i class="fas fa-exchange-alt me-1"></i> Propose Trade
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- More listings would appear here -->
+    </div>
+
+    <!-- Pagination -->
+    <nav class="mt-5">
+      <ul class="pagination justify-content-center">
+        <li class="page-item disabled">
+          <a class="page-link" href="#" tabindex="-1">Previous</a>
+        </li>
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#">Next</a>
+        </li>
+      </ul>
+    </nav>
+  </main>
+
+  <!-- New Listing Modal (same as before) -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Range slider value display
+      const rangeSlider = document.getElementById('location-range');
+      const rangeValue = document.getElementById('range-value');
+      rangeSlider.addEventListener('input', function() {
+        rangeValue.textContent = this.value;
+      });
+
+      // Heart button toggle
+      document.querySelectorAll('.heart-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          this.classList.toggle('active');
+          const icon = this.querySelector('i');
+          if (this.classList.contains('active')) {
+            icon.classList.replace('far', 'fas');
+            // Add to wishlist logic would go here
+          } else {
+            icon.classList.replace('fas', 'far');
+            // Remove from wishlist logic would go here
+          }
+        });
+      });
+
+      // Filter application
+      document.getElementById('apply-filters').addEventListener('click', function() {
+        // In a real app, this would filter the listings
+        console.log('Filters applied');
+        // Collapse the filter panel after applying
+        const filterCollapse = new bootstrap.Collapse(document.getElementById('filterCollapse'));
+        filterCollapse.hide();
+      });
+
+      // Reset filters
+      document.getElementById('reset-filters').addEventListener('click', function() {
+        document.querySelectorAll('.form-check-input').forEach(checkbox => {
+          checkbox.checked = true;
+        });
+        document.getElementById('location-range').value = 10;
+        rangeValue.textContent = '10';
+        // Reset other filters as needed
+      });
+
+      // Sort options
+      document.querySelectorAll('.sort-option').forEach(option => {
+        option.addEventListener('click', function(e) {
+          e.preventDefault();
+          document.querySelectorAll('.sort-option').forEach(opt => {
+            opt.classList.remove('active');
+          });
+          this.classList.add('active');
+          // Actual sorting logic would go here
+          console.log('Sorting by:', this.dataset.sort);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

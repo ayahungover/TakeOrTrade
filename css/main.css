@@ -1,0 +1,12 @@
+/* main.css */
+.listing-card {
+    transition: all 0.3s ease;
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .type-badge {
+      &.fcfs { background: linear-gradient(135deg, #4CAF50, #8BC34A); }
+      &.request { background: linear-gradient(135deg, #FFC107, #FF9800); }
+    }
+  }

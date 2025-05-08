@@ -4,219 +4,517 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TakeOrTrade - Home</title>
+    <title>TakeOrTrade - Exchange Goods Freely</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="styles.css" rel="stylesheet">
     <style>
-        /* Custom dropdown styles */
-        .dropdown-menu {
-            background-color: #343a40;
-            /* Dark background */
-            border: none;
+        :root {
+            --primary-gradient: linear-gradient(135deg, #3F51B5, #2196F3);
+            --success-gradient: linear-gradient(135deg, #4CAF50, #2E7D32);
+            --warning-gradient: linear-gradient(135deg, #FF9800, #F57C00);
         }
 
-        .dropdown-item {
-            color: #fff;
-            /* White text */
-        }
-
-        .dropdown-item:hover {
-            background-color: #495057;
-            /* Hover effect */
-            color: #fff;
-        }
-
+        /* Modern styling */
         .hero-section {
-            background: url('images/hero-bg.jpg') no-repeat center center/cover;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: rgb(255, 252, 252);
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero-section h1 {
-            font-size: 3.5rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero-section p {
-            font-size: 1.25rem;
-            margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero-section .btn {
-            font-size: 1.1rem;
-            padding: 10px 30px;
-            border-radius: 25px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-
-        .notification-btn {
-            position: fixed;
-            /* Fixed position */
-            bottom: 20px;
-            /* Distance from the bottom */
-            right: 20px;
-            /* Distance from the right */
-            background-color: #007bff;
-            /* Button color */
+            background: #0d6efd;
             color: white;
-            /* Icon color */
+            color: white;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+
+        }
+
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750') center/cover;
+            opacity: 0.15;
+        }
+
+        .feature-card {
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             border: none;
-            border-radius: 50%;
-            /* Circular button */
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .listing-card {
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .listing-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .listing-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 0.7rem;
+            padding: 5px 10px;
+            border-radius: 20px;
+            color: white;
+        }
+
+        .fcfs-badge {
+            background: var(--success-gradient);
+        }
+
+        .request-badge {
+            background: var(--warning-gradient);
+        }
+
+        .listing-img {
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .category-chip {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: #f8f9fa;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .category-chip:hover {
+            background: #e9ecef;
+            transform: translateY(-1px);
+        }
+
+        .category-chip.active {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .stats-card {
+            border-radius: 12px;
+            border: none;
+        }
+
+        .stats-icon {
             width: 50px;
             height: 50px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            /* Add a shadow */
-            z-index: 1000;
-            /* Ensure it's above other content */
         }
 
-        .notification-icon {
-            font-size: 1.5rem;
-            /* Icon size */
+        .how-it-works-step {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 30px;
         }
 
-        .notification-count {
+        .how-it-works-step::before {
+            content: attr(data-step);
             position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: red;
-            /* Badge color */
-            color: white;
+            left: 0;
+            top: 0;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
-            padding: 2px 6px;
-            font-size: 0.8rem;
+            background: var(--primary-gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
         }
 
-        .notification-dropdown {
-            position: fixed;
-            bottom: 80px;
-            /* Position above the button */
-            right: 20px;
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 300px;
-            max-height: 200px;
-            overflow-y: auto;
-            display: none;
-            /* Hidden by default */
-            z-index: 1000;
+        .testimonial-card {
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
         }
 
-        .notification-item {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-            font-size: 0.9rem;
+        .animated-arrow {
+            transition: transform 0.3s;
         }
 
-        .notification-item:last-child {
-            border-bottom: none;
+        .btn-hover-animate:hover .animated-arrow {
+            transform: translateX(3px);
+        }
+
+        .btn {
+            cursor: pointer;
+            position: relative;
+            z-index: 10;
+            transition: all 0.2s;
+        }
+
+        .btn-light {
+            background: white;
+            color: #0d6efd;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
         }
     </style>
-
 </head>
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">TakeOrTrade</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
-                    <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-                    <li class="nav-item"><a class="nav-link" href="list-item.html">List Item</a></li>
-                    <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
+<body class="bg-light">
+    <!-- Navbar (same as other pages) -->
 
-                    <!-- Browse Listings Dropdown -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Browse Listings
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="giveaways.html">Giveaways</a></li>
-                            <li><a class="dropdown-item" href="exchanges.html">Exchanges</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
-    <section class="hero-section">
+    <!-- Hero Section -->
+    <section class="hero-section py-5 mb-5 rounded-3">
         <div class="container">
-            <h1>Trade, Give, Save - All in One Place!</h1>
-            <p>TakeOrTrade helps you trade items, give away things you don't need, and find what you're looking for -
-                all for free!</p>
-            <div class="mt-4">
-                <a href="auth/signup.html" class="btn btn-primary">Get Started</a>
-                <a href="listings.html" class="btn btn-outline-light ms-3">Browse Listings</a>
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h1 class="display-4 fw-bold mb-3">Trade & Give Freely</h1>
+                    <p class="lead mb-4">Connect with neighbors.</p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="listings.html" class="btn btn-light btn-lg px-4">
+                            Browse Listings <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                        <a href="listings.html" class="btn btn-outline-light btn-lg px-4">
+                            <i class="fas fa-plus me-2"></i> List an Item
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="bg-white p-4 rounded-3 text-dark">
+                        <p>Map placeholder</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
-    <!-- Notification Button -->
-    <div class="notification-btn" id="notification-btn">
-        <span class="notification-icon">🔔</span>
-        <span class="notification-count">3</span> <!-- Example: Show 3 notifications -->
-    </div>
 
-    <!-- Notification Dropdown -->
-    <div class="notification-dropdown" id="notification-dropdown">
-        <div class="notification-item">New trade request for "YSL Bag"</div>
-        <div class="notification-item">Your giveaway "Tailored Jeans" was booked!</div>
-        <div class="notification-item">Reminder: Complete your trade for "YSL Perfume"</div>
-    </div>
-
-    <!-- Item List -->
-    <div class="container mt-4">
-        <h1>Welcome to TakeOrTrade</h1>
-        <div id="item-list" class="row">
-            <!-- Items will be dynamically added here -->
+    <!-- Categories Section -->
+    <section class="container mb-5">
+        <h2 class="text-center fw-bold mb-4">Popular Categories</h2>
+        <div class="text-center mb-4">
+            <span class="category-chip active">All</span>
+            <span class="category-chip">Furniture</span>
+            <span class="category-chip">Electronics</span>
+            <span class="category-chip">Clothing</span>
+            <span class="category-chip">Books</span>
+            <span class="category-chip">Toys</span>
+            <span class="category-chip">Kitchenware</span>
         </div>
-    </div>
+    </section>
 
-    <script src="scripts/script.js"></script>
+    <!-- Stats Section -->
+    <section class="container mb-5">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card stats-card shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="stats-icon bg-primary bg-opacity-10 text-primary me-3">
+                                <i class="fas fa-box-open fa-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="mb-0 fw-bold">1,245</h3>
+                                <p class="mb-0 text-muted">Items Listed</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card stats-card shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="stats-icon bg-success bg-opacity-10 text-success me-3">
+                                <i class="fas fa-handshake fa-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="mb-0 fw-bold">892</h3>
+                                <p class="mb-0 text-muted">Successful Exchanges</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card stats-card shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="stats-icon bg-warning bg-opacity-10 text-warning me-3">
+                                <i class="fas fa-users fa-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="mb-0 fw-bold">3,156</h3>
+                                <p class="mb-0 text-muted">Community Members</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <!-- Featured Listings -->
+    <section class="container mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold mb-0">Trending Near You</h2>
+            <a href="listings.html" class="btn btn-outline-primary btn-hover-animate">
+                View All <i class="fas fa-arrow-right animated-arrow ms-2"></i>
+            </a>
+        </div>
+        <div class="row g-4">
+            <!-- Listing 1 -->
+            <div class="col-xl-3 col-lg-4 col-md-6">
+                <div class="card listing-card shadow-sm h-100">
+                    <div class="position-relative">
+                        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc" class="listing-img w-100">
+                        <span class="listing-badge fcfs-badge">FCFS Giveaway</span>
+                        <span class="position-absolute top-0 end-0 p-2 bg-dark text-white rounded-start">1.2km</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Leather Sofa</h5>
+                        <p class="card-text text-muted">Excellent condition, barely used</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" width="24" height="24"
+                                    class="rounded-circle me-1">
+                                <small>SarahJ</small>
+                            </div>
+                            <small class="text-muted">2h ago</small>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="listing-detail.html" class="btn btn-primary w-100">
+                            <i class="fas fa-shopping-cart me-1"></i> Book Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Listing 2 -->
+            <div class="col-xl-3 col-lg-4 col-md-6">
+                <div class="card listing-card shadow-sm h-100">
+                    <div class="position-relative">
+                        <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12" class="listing-img w-100">
+                        <span class="listing-badge request-badge">Request Giveaway</span>
+                        <span class="position-absolute top-0 end-0 p-2 bg-dark text-white rounded-start">3.7km</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">iPhone 12</h5>
+                        <p class="card-text text-muted">64GB, excellent condition</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" width="24" height="24"
+                                    class="rounded-circle me-1">
+                                <small>MikeT</small>
+                            </div>
+                            <small class="text-muted">1d ago</small>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="listing-detail.html" class="btn btn-warning text-white w-100">
+                            <i class="fas fa-hand-paper me-1"></i> Request
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Listing 3 -->
+            <div class="col-xl-3 col-lg-4 col-md-6">
+                <div class="card listing-card shadow-sm h-100">
+                    <div class="position-relative">
+                        <img src="https://images.unsplash.com/photo-1523381294911-8d3cead13475"
+                            class="listing-img w-100">
+                        <span class="listing-badge">For Exchange</span>
+                        <span class="position-absolute top-0 end-0 p-2 bg-dark text-white rounded-start">2.5km</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Designer Jeans</h5>
+                        <p class="card-text text-muted">Size 32, like new</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <img src="https://randomuser.me/api/portraits/women/68.jpg" width="24" height="24"
+                                    class="rounded-circle me-1">
+                                <small>JennyK</small>
+                            </div>
+                            <small class="text-muted">3d ago</small>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="listing-detail.html" class="btn btn-info text-white w-100">
+                            <i class="fas fa-exchange-alt me-1"></i> Offer Trade
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Listing 4 -->
+            <div class="col-xl-3 col-lg-4 col-md-6">
+                <div class="card listing-card shadow-sm h-100">
+                    <div class="position-relative">
+                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f"
+                            class="listing-img w-100">
+                        <span class="listing-badge fcfs-badge">FCFS Giveaway</span>
+                        <span class="position-absolute top-0 end-0 p-2 bg-dark text-white rounded-start">4.1km</span>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Vintage Camera</h5>
+                        <p class="card-text text-muted">Fully functional, includes case</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <img src="https://randomuser.me/api/portraits/men/75.jpg" width="24" height="24"
+                                    class="rounded-circle me-1">
+                                <small>DavidL</small>
+                            </div>
+                            <small class="text-muted">5h ago</small>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a href="listing-detail.html" class="btn btn-primary w-100">
+                            <i class="fas fa-shopping-cart me-1"></i> Book Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center mb-5">
+                <h2 class="fw-bold mb-3">How TakeOrTrade Works</h2>
+                <p class="lead text-muted">Exchange goods with your community in three simple steps</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="how-it-works-step" data-step="1">
+                    <h4 class="mb-3">List Your Item</h4>
+                    <p class="text-muted">Choose to list for instant giveaway, request-based giveaway, or exchange for
+                        other items.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="how-it-works-step" data-step="2">
+                    <h4 class="mb-3">Connect</h4>
+                    <p class="text-muted">Browse listings or wait for requests. Chat with other users to arrange
+                        details.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="how-it-works-step" data-step="3">
+                    <h4 class="mb-3">Exchange</h4>
+                    <p class="text-muted">Meet up safely or ship items. No money changes hands - just good vibes!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow-sm border-0 overflow-hidden">
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-primary text-white p-5 d-flex align-items-center">
+                            <div>
+                                <h2 class="fw-bold mb-4">What Our Community Says</h2>
+                                <p class="mb-4">Join thousands of happy users exchanging goods freely</p>
+                                <button class="btn btn-light">Join Now</button>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="p-4">
+                                <div class="testimonial-card bg-white p-4 mb-3">
+                                    <div class="d-flex mb-3">
+                                        <img src="https://randomuser.me/api/portraits/women/63.jpg" width="48"
+                                            height="48" class="rounded-circle me-3">
+                                        <div>
+                                            <h6 class="mb-0">Sarah Miller</h6>
+                                            <small class="text-muted">Brooklyn, NY</small>
+                                        </div>
+                                    </div>
+                                    <p class="mb-0">"I furnished my entire apartment using TakeOrTrade! Saved thousands
+                                        and met great people."</p>
+                                </div>
+                                <div class="testimonial-card bg-white p-4">
+                                    <div class="d-flex mb-3">
+                                        <img src="https://randomuser.me/api/portraits/men/82.jpg" width="48" height="48"
+                                            class="rounded-circle me-3">
+                                        <div>
+                                            <h6 class="mb-0">James Wilson</h6>
+                                            <small class="text-muted">Queens, NY</small>
+                                        </div>
+                                    </div>
+                                    <p class="mb-0">"Traded my old guitar for a mountain bike. Best decision ever - the
+                                        system works!"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="container mb-5">
+        <div class="card bg-dark text-white overflow-hidden">
+            <div class="card-body p-5">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h2 class="fw-bold mb-3">Ready to Trade or Give Freely?</h2>
+                        <p class="mb-md-0">Join our community of thousands saving money and reducing waste.</p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <a href="signup.html" class="btn btn-primary btn-lg px-4 me-2">Sign Up Free</a>
+                        <a href="listings.html" class="btn btn-outline-light btn-lg px-4">Browse Listings</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (same as other pages) -->
+
+    <!-- New Listing Modal (same as listings.html) -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Get the button and dropdown
-        const notificationBtn = document.getElementById("notification-btn");
-        const notificationDropdown = document.getElementById("notification-dropdown");
-
-        // Toggle dropdown visibility
-        notificationBtn.addEventListener("click", function () {
-            if (notificationDropdown.style.display === "block") {
-                notificationDropdown.style.display = "none";
-            } else {
-                notificationDropdown.style.display = "block";
-            }
+        // Category filter chips
+        document.querySelectorAll('.category-chip').forEach(chip => {
+            chip.addEventListener('click', function () {
+                document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                // Actual filtering would happen here
+            });
+        });
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                console.log(`Clicked: ${link.textContent.trim()}`);
+                // e.preventDefault(); // Remove this if it exists
+            });
         });
 
-        // Close dropdown when clicking outside
-        document.addEventListener("click", function (event) {
-            if (!notificationBtn.contains(event.target)) {
-                notificationDropdown.style.display = "none";
-            }
+        // Animate "hover-arrow" buttons
+        document.querySelectorAll('.btn-hover-animate').forEach(btn => {
+            btn.addEventListener('mouseenter', function () {
+                this.querySelector('.animated-arrow').style.transform = 'translateX(3px)';
+            });
+            btn.addEventListener('mouseleave', function () {
+                this.querySelector('.animated-arrow').style.transform = 'translateX(0)';
+            });
         });
     </script>
 </body>
