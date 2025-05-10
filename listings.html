@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,22 +14,25 @@
       --request-color: linear-gradient(135deg, #FF9800, #F57C00);
       --exchange-color: linear-gradient(135deg, #3F51B5, #2196F3);
     }
-    
+
     .listing-card {
       border-radius: 12px;
       overflow: hidden;
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       border: none;
     }
+
     .listing-card:hover {
-      box-shadow: 0 14px 28px rgba(0,0,0,0.08), 0 10px 10px rgba(0,0,0,0.05);
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08), 0 10px 10px rgba(0, 0, 0, 0.05);
       transform: translateY(-2px);
     }
+
     .listing-img {
       height: 200px;
       object-fit: cover;
       width: 100%;
     }
+
     .type-badge {
       position: absolute;
       top: 15px;
@@ -38,31 +42,39 @@
       border-radius: 20px;
       color: white;
     }
+
     .fcfs-badge {
       background: var(--fcfs-color);
     }
+
     .request-badge {
       background: var(--request-color);
     }
+
     .exchange-badge {
       background: var(--exchange-color);
     }
+
     .distance-badge {
       position: absolute;
       top: 15px;
       right: 15px;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0, 0, 0, 0.6);
       color: white;
     }
+
     .filter-card {
       border-radius: 12px;
     }
+
     .filter-header {
       cursor: pointer;
     }
+
     .filter-section {
       transition: all 0.3s ease;
     }
+
     .map-preview {
       height: 150px;
       background: #eee;
@@ -70,6 +82,7 @@
       position: relative;
       overflow: hidden;
     }
+
     .map-preview::after {
       content: "";
       position: absolute;
@@ -77,8 +90,9 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.3));
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3));
     }
+
     .heart-btn {
       position: absolute;
       bottom: 15px;
@@ -89,32 +103,114 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(255,255,255,0.9);
+      background: rgba(255, 255, 255, 0.9);
       color: #ff4757;
       border: none;
       transition: all 0.3s;
     }
+
     .heart-btn:hover {
       background: white;
       transform: scale(1.1);
     }
+
     .heart-btn.active {
       color: white;
       background: #ff4757;
     }
+
     .search-bar {
       border-radius: 50px;
       padding-left: 20px;
       border: 1px solid #dee2e6;
     }
+
     .search-btn {
       border-radius: 0 50px 50px 0;
       padding: 0 20px;
     }
   </style>
 </head>
+
 <body class="bg-light">
   <!-- Navbar (same as other pages) -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container">
+      <!-- Brand/Logo -->
+      <a class="navbar-brand fw-bold" href="index.html">
+        <i class="fas fa-handshake me-2"></i>TakeOrTrade
+      </a>
+
+      <!-- Mobile Toggle Button -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Nav Items -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="listings.html"><i class="fas fa-search me-1"></i> Browse</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="new-listing.html"><i class="fas fa-plus me-1"></i> List Item</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="how-it-works.html"><i class="fas fa-question-circle me-1"></i> How It
+              Works</a>
+          </li>
+        </ul>
+
+        <!-- Right-aligned Items -->
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="notificationsDropdown" role="button"
+              data-bs-toggle="dropdown">
+              <i class="fas fa-bell"></i>
+              <span class="position-absolute top-10 start-90 translate-middle badge rounded-pill bg-danger">
+                3
+              </span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <h6 class="dropdown-header">Notifications</h6>
+              </li>
+              <li><a class="dropdown-item" href="#">New message from Sarah</a></li>
+              <li><a class="dropdown-item" href="#">Your listing got 5 views</a></li>
+              <li><a class="dropdown-item" href="#">Trade request approved</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#">View all</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" width="30" height="30"
+                class="rounded-circle me-1">
+              JohnDoe
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user me-2"></i>
+                  Profile</a>
+              </li>
+              <li><a class="dropdown-item" href="my-listings.html"><i class="fas fa-box me-2"></i> My
+                  Listings</a></li>
+              <li><a class="dropdown-item" href="wishlist.html"><i class="fas fa-heart me-2"></i>
+                  Wishlist</a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
+              <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-sign-out-alt me-2"></i>
+                  Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
   <main class="container py-5">
     <!-- Search and Filter Bar -->
@@ -163,7 +259,7 @@
                 <label class="form-check-label" for="filter-giveaway">Giveaway</label>
               </div>
             </div>
-            
+
             <!-- Giveaway Type -->
             <div class="col-md-3 mb-3">
               <h6 class="fw-bold mb-3">Giveaway Type</h6>
@@ -176,7 +272,7 @@
                 <label class="form-check-label" for="filter-request">Request-Based</label>
               </div>
             </div>
-            
+
             <!-- Location -->
             <div class="col-md-3 mb-3">
               <h6 class="fw-bold mb-3">Location</h6>
@@ -189,7 +285,7 @@
                 <label class="form-check-label" for="filter-nearby">Show nearby only</label>
               </div>
             </div>
-            
+
             <!-- Categories -->
             <div class="col-md-3 mb-3">
               <h6 class="fw-bold mb-3">Categories</h6>
@@ -232,7 +328,8 @@
             <p class="card-text text-muted">Excellent condition, barely used</p>
             <div class="d-flex justify-content-between align-items-center">
               <div>
-                <img src="https://randomuser.me/api/portraits/women/44.jpg" width="24" height="24" class="rounded-circle me-1">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" width="24" height="24"
+                  class="rounded-circle me-1">
                 <small>SarahJ</small>
               </div>
               <small class="text-muted">2 hours ago</small>
@@ -262,7 +359,8 @@
             <p class="card-text text-muted">Size 32, like new</p>
             <div class="d-flex justify-content-between align-items-center">
               <div>
-                <img src="https://randomuser.me/api/portraits/men/32.jpg" width="24" height="24" class="rounded-circle me-1">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" width="24" height="24"
+                  class="rounded-circle me-1">
                 <small>MikeT</small>
               </div>
               <small class="text-muted">1 day ago</small>
@@ -292,7 +390,8 @@
             <p class="card-text text-muted">64GB, excellent condition</p>
             <div class="d-flex justify-content-between align-items-center">
               <div>
-                <img src="https://randomuser.me/api/portraits/women/68.jpg" width="24" height="24" class="rounded-circle me-1">
+                <img src="https://randomuser.me/api/portraits/women/68.jpg" width="24" height="24"
+                  class="rounded-circle me-1">
                 <small>JennyK</small>
               </div>
               <small class="text-muted">3 days ago</small>
@@ -329,17 +428,17 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       // Range slider value display
       const rangeSlider = document.getElementById('location-range');
       const rangeValue = document.getElementById('range-value');
-      rangeSlider.addEventListener('input', function() {
+      rangeSlider.addEventListener('input', function () {
         rangeValue.textContent = this.value;
       });
 
       // Heart button toggle
       document.querySelectorAll('.heart-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
           this.classList.toggle('active');
           const icon = this.querySelector('i');
           if (this.classList.contains('active')) {
@@ -353,7 +452,7 @@
       });
 
       // Filter application
-      document.getElementById('apply-filters').addEventListener('click', function() {
+      document.getElementById('apply-filters').addEventListener('click', function () {
         // In a real app, this would filter the listings
         console.log('Filters applied');
         // Collapse the filter panel after applying
@@ -362,7 +461,7 @@
       });
 
       // Reset filters
-      document.getElementById('reset-filters').addEventListener('click', function() {
+      document.getElementById('reset-filters').addEventListener('click', function () {
         document.querySelectorAll('.form-check-input').forEach(checkbox => {
           checkbox.checked = true;
         });
@@ -373,7 +472,7 @@
 
       // Sort options
       document.querySelectorAll('.sort-option').forEach(option => {
-        option.addEventListener('click', function(e) {
+        option.addEventListener('click', function (e) {
           e.preventDefault();
           document.querySelectorAll('.sort-option').forEach(opt => {
             opt.classList.remove('active');
@@ -386,4 +485,5 @@
     });
   </script>
 </body>
+
 </html>

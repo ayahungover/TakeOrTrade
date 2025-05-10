@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +9,87 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/main.css">
 </head>
+
 <body class="bg-light">
-  <!-- Navbar (same as index.html) -->
+
+  <!-- Navbar (same as other pages) -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container">
+      <!-- Brand/Logo -->
+      <a class="navbar-brand fw-bold" href="index.html">
+        <i class="fas fa-handshake me-2"></i>TakeOrTrade
+      </a>
+
+      <!-- Mobile Toggle Button -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Nav Items -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="listings.html"><i class="fas fa-search me-1"></i> Browse</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="new-listing.html"><i class="fas fa-plus me-1"></i> List Item</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="how-it-works.html"><i class="fas fa-question-circle me-1"></i> How It
+              Works</a>
+          </li>
+        </ul>
+
+        <!-- Right-aligned Items -->
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="notificationsDropdown" role="button"
+              data-bs-toggle="dropdown">
+              <i class="fas fa-bell"></i>
+              <span class="position-absolute top-10 start-90 translate-middle badge rounded-pill bg-danger">
+                3
+              </span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <h6 class="dropdown-header">Notifications</h6>
+              </li>
+              <li><a class="dropdown-item" href="#">New message from Sarah</a></li>
+              <li><a class="dropdown-item" href="#">Your listing got 5 views</a></li>
+              <li><a class="dropdown-item" href="#">Trade request approved</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#">View all</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" width="30" height="30"
+                class="rounded-circle me-1">
+              JohnDoe
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user me-2"></i>
+                  Profile</a>
+              </li>
+              <li><a class="dropdown-item" href="my-listings.html"><i class="fas fa-box me-2"></i> My
+                  Listings</a></li>
+              <li><a class="dropdown-item" href="wishlist.html"><i class="fas fa-heart me-2"></i>
+                  Wishlist</a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
+              <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-sign-out-alt me-2"></i>
+                  Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
   <main class="container my-5">
     <div class="row">
@@ -20,22 +100,26 @@
             <div id="listingCarousel" class="carousel slide" data-bs-ride="carousel">
               <div class="carousel-inner">
                 <div class="carousel-item active">
-                  <img src="https://via.placeholder.com/800x600?text=Product+Image+1" class="d-block w-100" alt="Listing image">
+                  <img src="https://via.placeholder.com/800x600?text=Product+Image+1" class="d-block w-100"
+                    alt="Listing image">
                 </div>
                 <div class="carousel-item">
-                  <img src="https://via.placeholder.com/800x600?text=Product+Image+2" class="d-block w-100" alt="Listing image">
+                  <img src="https://via.placeholder.com/800x600?text=Product+Image+2" class="d-block w-100"
+                    alt="Listing image">
                 </div>
               </div>
-              <button class="carousel-control-prev" type="button" data-bs-target="#listingCarousel" data-bs-slide="prev">
+              <button class="carousel-control-prev" type="button" data-bs-target="#listingCarousel"
+                data-bs-slide="prev">
                 <span class="carousel-control-prev-icon"></span>
               </button>
-              <button class="carousel-control-next" type="button" data-bs-target="#listingCarousel" data-bs-slide="next">
+              <button class="carousel-control-next" type="button" data-bs-target="#listingCarousel"
+                data-bs-slide="next">
                 <span class="carousel-control-next-icon"></span>
               </button>
             </div>
           </div>
         </div>
-        
+
         <!-- Listing Details -->
         <div class="card mb-4 shadow-sm">
           <div class="card-body">
@@ -43,7 +127,7 @@
               <h1 class="card-title fw-bold mb-0">Vintage Leather Sofa</h1>
               <span class="badge bg-success fs-6">Giveaway</span>
             </div>
-            
+
             <div class="d-flex align-items-center mb-3">
               <div class="me-3">
                 <span class="fw-bold">Type:</span>
@@ -54,17 +138,18 @@
                 <span class="badge bg-secondary">Furniture</span>
               </div>
             </div>
-            
+
             <div class="mb-4">
               <h5 class="fw-bold">Description</h5>
-              <p class="card-text">Beautiful vintage leather sofa in good condition. Some minor scuffs but structurally sound. Great for a retro-themed living space.</p>
+              <p class="card-text">Beautiful vintage leather sofa in good condition. Some minor scuffs but structurally
+                sound. Great for a retro-themed living space.</p>
             </div>
-            
+
             <div class="mb-4">
               <h5 class="fw-bold">Location</h5>
               <p><i class="fas fa-map-marker-alt text-danger me-2"></i> Brooklyn, NY (approx. 3.2km from you)</p>
             </div>
-            
+
             <div class="d-flex align-items-center">
               <img src="https://via.placeholder.com/50?text=User" class="rounded-circle me-2" alt="User">
               <div>
@@ -74,7 +159,7 @@
             </div>
           </div>
         </div>
-        
+
         <!-- Action Buttons -->
         <div class="card mb-4 shadow-sm">
           <div class="card-body">
@@ -86,7 +171,7 @@
                 <i class="fas fa-envelope me-2"></i>Contact Owner
               </button>
             </div>
-            
+
             <div id="request-action" style="display: none;">
               <button class="btn btn-primary w-100 mb-2" data-bs-toggle="modal" data-bs-target="#requestModal">
                 <i class="fas fa-hand-paper me-2"></i>Request Item
@@ -95,19 +180,22 @@
                 <i class="fas fa-envelope me-2"></i>Contact Owner
               </button>
             </div>
-            
+
             <div id="exchange-action" style="display: none;">
               <button class="btn btn-primary w-100 mb-2" data-bs-toggle="modal" data-bs-target="#proposeExchangeModal">
                 <i class="fas fa-exchange-alt me-2"></i>Propose Exchange
               </button>
               <button class="btn btn-outline-primary w-100">
-                <i class="fas fa-envelope me-2"></i>Contact Owner
+                <a href="chat.html" class="btn btn-outline-primary w-100">
+                  <i class="fas fa-envelope me-2"></i>Contact Owner
+                </a>
+
               </button>
             </div>
           </div>
         </div>
       </div>
-      
+
       <div class="col-lg-4">
         <!-- Owner Info Card -->
         <div class="card mb-4 shadow-sm">
@@ -120,7 +208,7 @@
                 <small class="text-muted">Brooklyn, NY</small>
               </div>
             </div>
-            
+
             <div class="mb-3">
               <div class="d-flex justify-content-between">
                 <span>Response Rate:</span>
@@ -130,27 +218,27 @@
                 <div class="progress-bar bg-success" style="width: 95%"></div>
               </div>
             </div>
-            
+
             <div class="mb-3">
               <div class="d-flex justify-content-between">
                 <span>Listings:</span>
                 <span class="fw-bold">12</span>
               </div>
             </div>
-            
+
             <div class="mb-3">
               <div class="d-flex justify-content-between">
                 <span>Member Since:</span>
                 <span class="fw-bold">Jun 2022</span>
               </div>
             </div>
-            
+
             <button class="btn btn-outline-primary w-100 mt-2">
               <i class="fas fa-user me-2"></i>View Profile
             </button>
           </div>
         </div>
-        
+
         <!-- Safety Tips -->
         <div class="card shadow-sm">
           <div class="card-body">
@@ -214,7 +302,8 @@
         <div class="modal-body">
           <div class="mb-3">
             <label for="requestMessage" class="form-label">Why do you want this item?</label>
-            <textarea class="form-control" id="requestMessage" rows="3" placeholder="Tell the owner why you're interested..."></textarea>
+            <textarea class="form-control" id="requestMessage" rows="3"
+              placeholder="Tell the owner why you're interested..."></textarea>
           </div>
           <div class="form-check mb-3">
             <input class="form-check-input" type="checkbox" id="requestAgreeTerms" required>
@@ -241,7 +330,8 @@
         <div class="modal-body">
           <div class="mb-3">
             <label for="exchangeProposal" class="form-label">What will you offer in exchange?</label>
-            <textarea class="form-control" id="exchangeProposal" rows="3" placeholder="Describe the item(s) you're offering..."></textarea>
+            <textarea class="form-control" id="exchangeProposal" rows="3"
+              placeholder="Describe the item(s) you're offering..."></textarea>
           </div>
           <div class="mb-3">
             <label for="exchangeImages" class="form-label">Upload images of your item (optional)</label>
@@ -271,7 +361,7 @@
       // In a real app, this would come from the listing data
       const listingType = 'giveaway'; // 'giveaway' or 'exchange'
       const giveawayType = 'request'; // 'fcfs' or 'request'
-      
+
       if (listingType === 'giveaway') {
         if (giveawayType === 'fcfs') {
           document.getElementById('fcfs-action').style.display = 'block';
@@ -284,4 +374,5 @@
     });
   </script>
 </body>
+
 </html>
