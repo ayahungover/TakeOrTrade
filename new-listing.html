@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,30 +11,39 @@
         body {
             background-color: #f8f9fa;
         }
+
         .listing-card {
             max-width: 800px;
             border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
+
         .nav-tabs .nav-link.active {
             font-weight: 600;
             border-bottom: 3px solid #0d6efd;
         }
+
         .image-preview {
             height: 120px;
             object-fit: cover;
             border-radius: 8px;
         }
+
         .tab-content {
             padding: 20px 0;
         }
     </style>
 </head>
+
 <body class="py-4">
+
+
+
+
     <div class="container">
         <div class="card listing-card mx-auto p-3 p-md-4">
             <h2 class="text-center mb-4">List an Item</h2>
-            
+
             <!-- Listing Type Tabs -->
             <ul class="nav nav-tabs" id="listingTabs">
                 <li class="nav-item">
@@ -86,7 +96,7 @@
 
                         <div class="mb-3">
                             <label class="form-label">Category*</label>
-                            <select class="form-select" required>
+                            <select class="form-select" name="category" required>
                                 <option value="">Select a category</option>
                                 <option>Furniture</option>
                                 <option>Electronics</option>
@@ -121,12 +131,13 @@
 
                         <div class="mb-3">
                             <label for="wantedItems" class="form-label">What would you like in exchange?*</label>
-                            <input type="text" class="form-control" id="wantedItems" placeholder="e.g. Coffee table, bicycle, headphones" required>
+                            <input type="text" class="form-control" id="wantedItems"
+                                placeholder="e.g. Coffee table, bicycle, headphones" required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Category*</label>
-                            <select class="form-select" required>
+                            <select class="form-select" name="category" required>
                                 <option value="">Select a category</option>
                                 <option>Furniture</option>
                                 <option>Electronics</option>
@@ -149,45 +160,108 @@
         </div>
     </div>
 
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/js/auth.js"></script>
     <script>
-        // Image preview functionality
-        document.querySelectorAll('input[type="file"]').forEach(input => {
-            input.addEventListener('change', function() {
-                const previewContainer = this.id.includes('giveaway') 
-                    ? document.getElementById('giveawayPreviews')
-                    : document.getElementById('exchangePreviews');
-                
-                previewContainer.innerHTML = '';
-                
-                if (this.files) {
-                    Array.from(this.files).forEach(file => {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            const img = document.createElement('img');
-                            img.src = e.target.result;
-                            img.className = 'image-preview';
-                            img.style.width = '120px';
-                            previewContainer.appendChild(img);
-                        }
-                        reader.readAsDataURL(file);
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const { data: { session } } = await supabase.auth.getSession();
+                console.log('Initial session:', session);
+
+                if (!session) {
+                    alert('Session expired - redirecting to login');
+                    window.location.href = '/login.html';
+                    return;
+                }
+                // 1. Get logged-in user data
+                const user = await window.authFunctions.getCurrentUserProfile();
+                if (!user) {
+                    window.location.href = '/login.html';
+                    return;
+                }
+
+                // 2. Store user data in form (hidden fields)
+                const forms = document.querySelectorAll('form');
+                forms.forEach(form => {
+                    form.innerHTML += `
+              <input type="hidden" name="user_id" value="${user.id}">
+              ${user.location ? `<input type="hidden" name="user_location" value="${user.location}">` : ''}
+            `;
+                });
+
+                // 3. If user has location saved, pre-fill location fields
+                if (user.location) {
+                    document.querySelectorAll('[name="location"]').forEach(field => {
+                        field.value = user.location;
                     });
                 }
-            });
+
+
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                alert('Please login to create listings');
+                window.location.href = '/login.html';
+            }
+
+
         });
 
-        // Form submission
-        document.getElementById('giveawayForm').addEventListener('submit', function(e) {
+
+
+        document.getElementById('giveawayForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            console.log('Giveaway form submitted');
-            // Add your submission logic here
+            const form = e.target;
+
+            const listingData = {
+                user_id: form.user_id.value,
+                title: form.giveawayTitle.value,
+                description: form.giveawayDescription.value,
+                category: form.querySelector('[name="category"]').value,
+                type: form.querySelector('[name="giveawayType"]:checked').id === 'fcfs' ? 'fcfs' : 'request',
+                location: form.user_location?.value || null
+            };
+
+            try {
+                const table = listingData.type === 'fcfs' ? 'fcfs_giveaways' : 'request_giveaways';
+                const { data, error } = await supabase.from(table).insert([listingData]);
+
+                if (error) throw error;
+                alert('Listing created successfully!');
+                form.reset();
+            } catch (error) {
+                console.error('Error creating listing:', error);
+                alert('Failed to create listing: ' + error.message);
+            }
         });
 
-        document.getElementById('exchangeForm').addEventListener('submit', function(e) {
+        document.getElementById('exchangeForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            console.log('Exchange form submitted');
-            // Add your submission logic here
+            const form = e.target;
+
+            const listingData = {
+                user_id: form.user_id.value,
+                title: form.exchangeTitle.value,
+                description: form.exchangeDescription.value,
+                wanted_items: form.wantedItems.value,
+                category: form.querySelector('[name="category"]').value,
+                location: form.user_location?.value || null
+            };
+
+            try {
+                const { data, error } = await supabase.from('exchange_listings').insert([listingData]);
+                if (error) throw error;
+                alert('Exchange listing created!');
+                form.reset();
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed: ' + error.message);
+            }
         });
+
     </script>
 </body>
+
 </html>

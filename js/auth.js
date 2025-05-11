@@ -5,7 +5,8 @@ const supabase = window.supabase.createClient(
   {
     auth: {
       persistSession: true,  // Crucial for session persistence
-      autoRefreshToken: true
+      autoRefreshToken: true,
+      detectSessionInUrl: false
     }
   }
 );
@@ -31,7 +32,7 @@ window.authFunctions = {
     if (!session) {
       throw new Error('Session not created');
     }
-    
+
     return data;
   },
 
@@ -44,6 +45,33 @@ window.authFunctions = {
   async getCurrentUser() {
     const { data: { user } } = await supabase.auth.getUser();
     return user;
+  },
+
+  async getCurrentUserProfile() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return null;
+
+    const { data: profile } = await supabase
+      .from('users')
+      .select('username, location')
+      .eq('user_id', user.id)
+      .single();
+
+    return { ...user, ...profile };
+  },
+
+  uploadImages: async function (files, listingId) {
+    const uploads = Array.from(files).map(async (file) => {
+      const path = `listings/${listingId}/${file.name}`;
+      const { data, error } = await supabase.storage
+        .from('listing_images')
+        .upload(path, file);
+
+      if (error) throw error;
+      return path;
+    });
+
+    return Promise.all(uploads);
   },
 
   async getUserData() {
@@ -85,8 +113,11 @@ window.authFunctions = {
 
   redirectIfUnauthenticated: async function () {
     const { data: { user }, error } = await supabase.auth.getUser();
-    if (error || !user) {
-      window.location.href = '/login.html';
+    if (!user) {
+      // Only redirect if we're not already on login page
+      if (!window.location.pathname.includes('login.html')) {
+        window.location.href = '/login.html';
+      }
       return null;
     }
     return user;
