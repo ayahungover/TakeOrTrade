@@ -123,34 +123,16 @@
       </div>
     </div>
   </div>
+
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+  <!-- THEN your auth.js -->
+  <script src="/js/auth.js"></script>
+
+  <!-- THEN your form logic -->
+  <script src="/js/signup-handler.js"></script>
+
 </body>
-
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-
-<script>
-  const { createClient } = supabase
-  supabase = createClient('https://ivivpejkbrzmmrueikht.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2aXZwZWprYnJ6bW1ydWVpa2h0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY4MDQ1NzgsImV4cCI6MjA2MjM4MDU3OH0.6Zxe36Sz7wU9toyLwlCs_77V0MexF2px3wGp7cB3ebc')
-
-  const form = document.querySelector('#signup-form')
-  form.addEventListener('submit', async(event) => {
-    event.preventDefault()
-    const formInputs = form.querySelectorAll('input, checkbox')
-    
-    let submission = {}
-    formInputs.forEach(element => {
-      const { value, name } = element
-      if (value){
-        submission[name] = value
-      }
-    })
-    
-    console.log(submission)
-    const { error, data } = await supabase.from('users').insert([submission]) 
-    console.log({error, data})
-
-  })
-
-  
-</script>
 
 </html>

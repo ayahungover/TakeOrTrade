@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - TakeOrTrade</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             background-color: #f8f9fa;
         }
+
         .login-card {
             max-width: 400px;
             border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
+
         .password-toggle {
             cursor: pointer;
             position: absolute;
@@ -23,6 +27,7 @@
         }
     </style>
 </head>
+
 <body class="d-flex align-items-center min-vh-100">
     <div class="container">
         <div class="card login-card mx-auto p-4">
@@ -30,13 +35,13 @@
                 <h3>Welcome back</h3>
                 <p class="text-muted">Sign in to your account</p>
             </div>
-            
-            <form id="loginForm">
+
+            <form id="login-form">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" class="form-control" id="email" required>
                 </div>
-                
+
                 <div class="mb-3 position-relative">
                     <label for="password" class="form-label">Password</label>
                     <div class="input-group">
@@ -46,7 +51,7 @@
                         </span>
                     </div>
                 </div>
-                
+
                 <div class="d-flex justify-content-between mb-3">
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="remember">
@@ -54,41 +59,58 @@
                     </div>
                     <a href="forgot-password.html" class="text-decoration-none">Forgot password?</a>
                 </div>
-                
+
                 <button type="submit" class="btn btn-primary w-100 mb-3">Login</button>
-                
+
                 <div class="text-center">
-                    <p class="text-muted">Don't have an account? <a href="signup.html" class="text-decoration-none">Sign up</a></p>
+                    <p class="text-muted">Don't have an account? <a href="signup.html" class="text-decoration-none">Sign
+                            up</a></p>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Font Awesome for icons -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-    
+    <!-- Load Supabase from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Load auth.js as regular script (not module) -->
+    <script src="/js/auth.js"></script>
+
     <script>
-        // Toggle password visibility
-        document.getElementById('togglePassword').addEventListener('click', function() {
-            const password = document.getElementById('password');
+
+        // Password toggle functionality
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const passwordInput = document.getElementById('password');
             const icon = this.querySelector('i');
-            
-            if (password.type === 'password') {
-                password.type = 'text';
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
                 icon.classList.replace('fa-eye', 'fa-eye-slash');
             } else {
-                password.type = 'password';
+                passwordInput.type = 'password';
                 icon.classList.replace('fa-eye-slash', 'fa-eye');
             }
         });
 
-        // Form submission
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+
+
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            // Add your login logic here
-            console.log('Login submitted');
-            // window.location.href = 'dashboard.html';
+            try {
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+
+                await window.authFunctions.loginUser(email, password);
+
+                // Add small delay to ensure session is saved
+                setTimeout(() => {
+                    window.location.href = '/home.html';
+                }, 300);
+
+            } catch (error) {
+                console.error('Login error:', error);
+                alert(error.message || 'Login failed');
+            }
         });
     </script>
 </body>
+
 </html>

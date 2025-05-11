@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - TakeOrTrade</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .welcome-banner {
+            background: linear-gradient(135deg, #3F51B5, #2196F3);
+            color: white;
+            border-radius: 10px;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-handshake me-2"></i>TakeOrTrade
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-home"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-search"></i> Browse Listings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-calendar-check"></i> My Bookings</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle"></i> <span id="username-display">User</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> Profile</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger" href="#" id="logout-btn"><i
+                                        class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <!-- Welcome Banner -->
+        <div class="welcome-banner p-4 mb-4">
+            <h1 id="welcome-message">Welcome back!</h1>
+            <p class="mb-0">What would you like to do today?</p>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 card-hover">
+                    <div class="card-body text-center">
+                        <i class="fas fa-search fa-3x mb-3 text-primary"></i>
+                        <h5 class="card-title">Browse Listings</h5>
+                        <p class="card-text">Find items to trade or rent in your area</p>
+                        <a href="#" class="btn btn-primary">Explore</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 card-hover">
+                    <div class="card-body text-center">
+                        <i class="fas fa-calendar-check fa-3x mb-3 text-success"></i>
+                        <h5 class="card-title">My Bookings</h5>
+                        <p class="card-text">View and manage your current bookings</p>
+                        <a href="#" class="btn btn-success">View Bookings</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 card-hover">
+                    <div class="card-body text-center">
+                        <i class="fas fa-plus-circle fa-3x mb-3 text-info"></i>
+                        <h5 class="card-title">Create Listing</h5>
+                        <p class="card-text">List an item you want to trade or rent out</p>
+                        <a href="#" class="btn btn-info">Get Started</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity Section -->
+        <div class="mt-5">
+            <h3 class="mb-4"><i class="fas fa-history"></i> Recent Activity</h3>
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">Booking Confirmed</h5>
+                        <small>3 hours ago</small>
+                    </div>
+                    <p class="mb-1">Your booking for "Mountain Bike" has been confirmed</p>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">New Message</h5>
+                        <small>1 day ago</small>
+                    </div>
+                    <p class="mb-1">You received a new message about your "Camera Lens" listing</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">© 2023 TakeOrTrade. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/js/auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        // Wait for DOM to load
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const user = await window.authFunctions.getUserData();
+                if (!user) {
+                    await window.authFunctions.logoutUser();
+                    return window.location.href = '/login.html';
+                }
+
+                // Update UI
+                const displayName = user.username || user.email.split('@')[0];
+                document.getElementById('welcome-message').textContent = `Welcome, ${displayName}!`;
+                document.getElementById('username-display').textContent = displayName;
+
+                // Logout handler
+                document.getElementById('logout-btn')?.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    await window.authFunctions.logoutUser();
+                    window.location.href = '/login.html';
+                });
+
+            } catch (error) {
+                console.error('Auth error:', error);
+                window.location.href = '/login.html';
+            }
+        });
+    </script>
+</body>
+
+</html>
