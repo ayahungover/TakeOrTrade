@@ -1,7 +1,13 @@
 // Initialize Supabase client
 const supabase = window.supabase.createClient(
   'https://ivivpejkbrzmmrueikht.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2aXZwZWprYnJ6bW1ydWVpa2h0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY4MDQ1NzgsImV4cCI6MjA2MjM4MDU3OH0.6Zxe36Sz7wU9toyLwlCs_77V0MexF2px3wGp7cB3ebc'
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2aXZwZWprYnJ6bW1ydWVpa2h0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY4MDQ1NzgsImV4cCI6MjA2MjM4MDU3OH0.6Zxe36Sz7wU9toyLwlCs_77V0MexF2px3wGp7cB3ebc',
+  {
+    auth: {
+      persistSession: true,  // Crucial for session persistence
+      autoRefreshToken: true
+    }
+  }
 );
 
 window.authFunctions = {
@@ -9,18 +15,23 @@ window.authFunctions = {
   async loginUser(email, password) {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
-      password
+      password,
+      options: {
+        shouldCreateUser: false
+      }
     });
 
     if (error) {
-      console.error('Login error details:', error);
-      throw error;
+      console.error('Full login error:', error);
+      throw new Error(error.message || 'Login failed');
     }
 
-    // Verify session exists
+    // Verify session was created
     const { data: { session } } = await supabase.auth.getSession();
-    if (!session) throw new Error('No session created');
-
+    if (!session) {
+      throw new Error('Session not created');
+    }
+    
     return data;
   },
 
