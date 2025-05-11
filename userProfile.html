@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - TakeOrTrade</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #3F51B5, #2196F3);
+        }
+        
+        .profile-container {
+            max-width: 1000px;
+        }
+        
+        .avatar-upload {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+        }
+        
+        .avatar-preview {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .avatar-upload label {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .avatar-upload label:hover {
+            transform: scale(1.1);
+        }
+        
+        .profile-section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+        
+        .profile-section:hover {
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            color: #3F51B5;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .stats-badge {
+            background: var(--primary-gradient);
+            color: white;
+            font-size: 0.8rem;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+        
+        .activity-item {
+            border-left: 3px solid #3F51B5;
+            padding-left: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-switch .form-check-input {
+            width: 2.5em;
+            height: 1.5em;
+        }
+
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <i class="fas fa-handshake me-2"></i>TakeOrTrade
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="listings.html"><i class="fas fa-search me-1"></i> Browse</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="new-listing.html"><i class="fas fa-plus me-1"></i> List Item</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="how-it-works.html"><i class="fas fa-question-circle me-1"></i> How It Works</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <img id="nav-avatar" src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp" width="30" height="30" class="rounded-circle me-1">
+                            <span id="nav-username">Account</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item active" href="profile.html"><i class="fas fa-user me-2"></i> Profile</a></li>
+                            <li><a class="dropdown-item" href="my-listings.html"><i class="fas fa-box me-2"></i> My Listings</a></li>
+                            <li><a class="dropdown-item" href="wishlist.html"><i class="fas fa-heart me-2"></i> Wishlist</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" id="logout-btn"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Content -->
+    <div class="profile-container container py-5">
+        <div class="row">
+            <!-- Left Column -->
+            <div class="col-lg-4 mb-4">
+                <div class="profile-section text-center">
+                    <div class="avatar-upload">
+                        <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp" class="avatar-preview" id="avatar-preview">
+                        <input type="file" id="avatar-upload" accept="image/*" class="d-none">
+                        <label for="avatar-upload"><i class="fas fa-camera"></i></label>
+                    </div>
+                    <h3 id="user-display-name">Loading... <span class="stats-badge">Member</span></h3>
+                    <p id="user-email" class="text-muted"></p>
+                    <p id="user-location" class="text-muted"></p>
+                    
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+                        <div class="text-center">
+                            <h4 class="mb-0" id="user-listings-count">0</h4>
+                            <small class="text-muted">Listings</small>
+                        </div>
+                        <div class="text-center">
+                            <h4 class="mb-0" id="user-exchanges-count">0</h4>
+                            <small class="text-muted">Exchanges</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="profile-section">
+                    <h5 class="section-title"><i class="fas fa-shield-alt"></i> Account Security</h5>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-outline-primary" id="change-password-btn">
+                            <i class="fas fa-key me-2"></i> Change Password
+                        </button>
+                        <button class="btn btn-outline-secondary" id="update-email-btn">
+                            <i class="fas fa-envelope me-2"></i> Update Email
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column -->
+            <div class="col-lg-8">
+                <div class="profile-section">
+                    <h5 class="section-title"><i class="fas fa-user-edit"></i> Profile Settings</h5>
+                    <form id="profile-form">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username-input" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Location</label>
+                                <input type="text" class="form-control" id="location-input">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Bio</label>
+                                <textarea class="form-control" id="bio-input" rows="3"></textarea>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <button type="submit" class="btn btn-primary px-4" id="save-profile-btn">
+                                    <i class="fas fa-save me-2"></i> Save Changes
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="profile-section">
+                    <h5 class="section-title"><i class="fas fa-bell"></i> Notification Preferences</h5>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="email-notifications" checked>
+                        <label class="form-check-label" for="email-notifications">Email Notifications</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="push-notifications" checked>
+                        <label class="form-check-label" for="push-notifications">Push Notifications</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="wishlist-alerts" checked>
+                        <label class="form-check-label" for="wishlist-alerts">Wishlist Matches</label>
+                    </div>
+                </div>
+                
+                <div class="profile-section">
+                    <h5 class="section-title"><i class="fas fa-clock"></i> Recent Activity</h5>
+                    <div id="recent-activity">
+                        <div class="text-center py-4">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast for notifications -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="notification-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto" id="toast-title">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="toast-message"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/js/auth.js"></script>
+    <script>
+        // Initialize Toast
+        const notificationToast = new bootstrap.Toast(document.getElementById('notification-toast'));
+        
+        function showNotification(title, message, isError = false) {
+            document.getElementById('toast-title').textContent = title;
+            document.getElementById('toast-message').textContent = message;
+            if (isError) {
+                document.getElementById('notification-toast').classList.add('bg-danger', 'text-white');
+            } else {
+                document.getElementById('notification-toast').classList.remove('bg-danger', 'text-white');
+            }
+            notificationToast.show();
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Check authentication
+                const user = await window.authFunctions.redirectIfUnauthenticated();
+                if (!user) return;
+
+                // Load profile data
+                await loadProfileData();
+
+                // Setup form submission
+                document.getElementById('profile-form').addEventListener('submit', handleProfileUpdate);
+
+                // Setup avatar upload
+                document.getElementById('avatar-upload').addEventListener('change', handleAvatarUpload);
+
+                // Setup logout button
+                document.getElementById('logout-btn').addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    try {
+                        await window.authFunctions.logoutUser();
+                        window.location.href = 'login.html';
+                    } catch (error) {
+                        showNotification('Error', 'Failed to logout', true);
+                    }
+                });
+
+                // Hide loading overlay
+                document.getElementById('loading-overlay').style.display = 'none';
+
+            } catch (error) {
+                console.error('Profile initialization error:', error);
+                showNotification('Error', 'Failed to load profile data', true);
+                document.getElementById('loading-overlay').style.display = 'none';
+            }
+        });
+
+        async function loadProfileData() {
+            try {
+                const { data: { user }, error: authError } = await supabase.auth.getUser();
+                if (authError) throw authError;
+
+                // Get profile data from your users table
+                const { data: profile, error: profileError } = await supabase
+                    .from('users')
+                    .select('username, location, bio, avatar_url')
+                    .eq('user_id', user.id)
+                    .single();
+
+                if (profileError) throw profileError;
+
+                // Get user stats
+                const { count: listingsCount } = await supabase
+                    .from('listings')
+                    .select('*', { count: 'exact' })
+                    .eq('user_id', user.id);
+
+                const { count: exchangesCount } = await supabase
+                    .from('exchanges')
+                    .select('*', { count: 'exact' })
+                    .or(`sender_id.eq.${user.id},receiver_id.eq.${user.id}`)
+                    .eq('status', 'completed');
+
+                // Update UI
+                document.getElementById('user-display-name').textContent = profile.username || user.email;
+                document.getElementById('user-email').textContent = user.email;
+                document.getElementById('user-location').textContent = profile.location || 'Not specified';
+                
+                document.getElementById('user-listings-count').textContent = listingsCount || 0;
+                document.getElementById('user-exchanges-count').textContent = exchangesCount || 0;
+
+                // Form fields
+                document.getElementById('username-input').value = profile.username || '';
+                document.getElementById('location-input').value = profile.location || '';
+                document.getElementById('bio-input').value = profile.bio || '';
+
+                // Avatar
+                if (profile.avatar_url) {
+                    document.getElementById('avatar-preview').src = profile.avatar_url;
+                    document.getElementById('nav-avatar').src = profile.avatar_url;
+                }
+
+                // Navbar username
+                document.getElementById('nav-username').textContent = profile.username || 'Account';
+
+                // Load recent activity
+                await loadRecentActivity(user.id);
+
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                throw error;
+            }
+        }
+
+        async function handleProfileUpdate(e) {
+            e.preventDefault();
+            
+            const saveBtn = document.getElementById('save-profile-btn');
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Saving...';
+            
+            try {
+                const { data: { user }, error: authError } = await supabase.auth.getUser();
+                if (authError) throw authError;
+
+                const username = document.getElementById('username-input').value;
+                const location = document.getElementById('location-input').value;
+                const bio = document.getElementById('bio-input').value;
+
+                const { error: updateError } = await supabase
+                    .from('users')
+                    .update({
+                        username,
+                        location,
+                        bio,
+                        updated_at: new Date().toISOString()
+                    })
+                    .eq('user_id', user.id);
+
+                if (updateError) throw updateError;
+
+                // Update displayed data immediately
+                document.getElementById('user-display-name').textContent = username || user.email;
+                document.getElementById('user-location').textContent = location || 'Not specified';
+                document.getElementById('nav-username').textContent = username || 'Account';
+
+                showNotification('Success', 'Profile updated successfully!');
+
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                showNotification('Error', 'Failed to update profile', true);
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<i class="fas fa-save me-2"></i> Save Changes';
+            }
+        }
+
+        async function handleAvatarUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const uploadLabel = document.querySelector('.avatar-upload label');
+            uploadLabel.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+            try {
+                const { data: { user }, error: authError } = await supabase.auth.getUser();
+                if (authError) throw authError;
+
+                // Generate unique filename
+                const fileExt = file.name.split('.').pop();
+                const fileName = `${user.id}-${Date.now()}.${fileExt}`;
+                const filePath = `avatars/${fileName}`;
+
+                // Upload to storage
+                const { error: uploadError } = await supabase.storage
+                    .from('avatars')
+                    .upload(filePath, file, {
+                        cacheControl: '3600',
+                        upsert: true
+                    });
+
+                if (uploadError) throw uploadError;
+
+                // Get public URL
+                const { data: { publicUrl } } = supabase.storage
+                    .from('avatars')
+                    .getPublicUrl(filePath);
+
+                // Update profile with new avatar URL
+                const { error: updateError } = await supabase
+                    .from('users')
+                    .update({ avatar_url: publicUrl })
+                    .eq('user_id', user.id);
+
+                if (updateError) throw updateError;
+
+                // Update preview
+                document.getElementById('avatar-preview').src = publicUrl;
+                document.getElementById('nav-avatar').src = publicUrl;
+                showNotification('Success', 'Avatar updated successfully!');
+
+            } catch (error) {
+                console.error('Error uploading avatar:', error);
+                showNotification('Error', 'Failed to upload avatar', true);
+            } finally {
+                uploadLabel.innerHTML = '<i class="fas fa-camera"></i>';
+            }
+        }
+
+        async function loadRecentActivity(userId) {
+            try {
+                const { data: activities, error } = await supabase
+                    .from('user_activities')
+                    .select('*')
+                    .eq('user_id', userId)
+                    .order('created_at', { ascending: false })
+                    .limit(5);
+
+                if (error) throw error;
+
+                const activityContainer = document.getElementById('recent-activity');
+                
+                if (activities.length === 0) {
+                    activityContainer.innerHTML = '<p class="text-muted">No recent activity</p>';
+                    return;
+                }
+
+                activityContainer.innerHTML = activities.map(activity => `
+                    <div class="activity-item">
+                        <div class="d-flex justify-content-between">
+                            <strong>${activity.title}</strong>
+                            <small class="text-muted">${new Date(activity.created_at).toLocaleString()}</small>
+                        </div>
+                        <p class="mb-0">${activity.description}</p>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('Error loading activities:', error);
+                document.getElementById('recent-activity').innerHTML = 
+                    '<p class="text-danger">Failed to load recent activity</p>';
+            }
+        }
+    </script>
+</body>
+</html>

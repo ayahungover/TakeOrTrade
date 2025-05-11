@@ -240,24 +240,55 @@
         document.getElementById('exchangeForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const form = e.target;
-
-            const listingData = {
-                user_id: form.user_id.value,
-                title: form.exchangeTitle.value,
-                description: form.exchangeDescription.value,
-                wanted_items: form.wantedItems.value,
-                category: form.querySelector('[name="category"]').value,
-                location: form.user_location?.value || null
-            };
+            const submitBtn = form.querySelector('button[type="submit"]');
 
             try {
+                // Disable button during submission
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span> Creating...';
+
+                // 1. Get current user
+                const { data: { user }, error: userError } = await supabase.auth.getUser();
+                if (userError) throw userError;
+
+                // 2. Upload images using your existing function
+                const imageInput = form.querySelector('input[type="file"]');
+                let imageUrls = [];
+
+                if (imageInput.files.length > 0) {
+                    // Generate a unique listing ID for the image folder
+                    const listingId = `listing-${user.id}-${Date.now()}`;
+
+                    // Use your existing uploadImages function
+                    imageUrls = await window.authFunctions.uploadImages(imageInput.files, listingId);
+                }
+
+                // 3. Create the listing record
+                const listingData = {
+                    user_id: user.id,  // Use the actual user ID from auth
+                    title: form.exchangeTitle.value,
+                    description: form.exchangeDescription.value,
+                    wanted_items: form.wantedItems.value,
+                    category: form.querySelector('[name="category"]').value,
+                    location: form.user_location?.value || null,
+                    images: imageUrls,  // This will be an array of URLs
+                    status: 'active',
+                    created_at: new Date().toISOString()
+                };
+
                 const { data, error } = await supabase.from('exchange_listings').insert([listingData]);
                 if (error) throw error;
-                alert('Exchange listing created!');
-                form.reset();
+
+                // Show success and redirect or reset form
+                alert('Exchange listing created successfully!');
+                window.location.href = 'my-listings.html'; // Or form.reset() if you prefer
+
             } catch (error) {
-                console.error('Error:', error);
-                alert('Failed: ' + error.message);
+                console.error('Error creating listing:', error);
+                alert('Failed to create listing: ' + error.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Create Listing';
             }
         });
 
